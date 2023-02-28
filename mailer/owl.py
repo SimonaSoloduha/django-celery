@@ -46,7 +46,7 @@ class Owl():
 
     def __init__(self, template, ctx, from_email=None, timezone=None, to=[]):
         if from_email is None:
-            from_email = settings.EMAIL_NOTIFICATIONS_FROM
+            from_email = settings.EMAIL_HOST_USER
 
         self.template = template
         self.ctx = ctx
@@ -80,7 +80,6 @@ class Owl():
             headers=self.headers,
             reply_to=[settings.REPLY_TO],
         )
-        self.msg.render()
 
     @user_tz
     @disable_i18n

@@ -1,0 +1,14 @@
+{% extends "mail_templated/base.tpl" %}
+{% load i18n %}
+
+{% block subject %}
+{{ user.crm.full_name }}, what happened?
+{% endblock %}
+
+{% block body %}
+{% trans 'Hi there!' %}
+
+{% trans "Where are you? What happened? You haven't practiced in over a week, your money's running away, come back to us soon." %}.
+
+{% include 'mailer/_signature.html' %}
+{% endblock %}

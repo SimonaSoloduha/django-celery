@@ -249,6 +249,15 @@ class ClassesManager(ProductContainerManager):
             .filter(is_scheduled=True, timeline__isnull=False) \
             .order_by('-timeline__start')
 
+    def classes_last_7_days(self):
+        time_now = timezone.now()
+        time_7_days_ago = time_now - timedelta(days=7)
+        return self.get_queryset() \
+            .filter(is_scheduled=True, timeline__isnull=False) \
+            .filter(timeline__end__range=[time_7_days_ago, time_now])\
+            .filter(subscription__is_fully_used=False)\
+            .order_by('-timeline__start')
+
     def starting_soon(self, delta):
         """
         Return a queryset with classes, whos timeline entries are about

@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 
 import environ
+from celery.schedules import crontab
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
 root = environ.Path(__file__) - 3        # three folder back (/a/b/c/ - 3 = /)
@@ -291,13 +292,13 @@ STATIC_ROOT = env('STATIC_ROOT')
 
 SECRET_KEY = env('SECRET_KEY')  # Raises ImproperlyConfigured exception if SECRET_KEY not in os.environ
 
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT')
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_PORT = env('EMAIL_PORT')
 ANYMAIL = {
     'MAILGUN_API_KEY': env('MAILGUN_API_KEY'),
     'MAILGUN_SENDER_DOMAIN': env('MAILGUN_SENDER_DOMAIN')
 }
-EMAIL_BACKEND = env('EMAIL_BACKEND')
+# EMAIL_BACKEND = env('EMAIL_BACKEND')
 EMAIL_ASYNC = env.bool('EMAIL_ASYNC')
 
 CACHES = {
@@ -321,10 +322,15 @@ CELERYBEAT_SCHEDULE = {
         'task': 'accounting.tasks.bill_timeline_entries',
         'schedule': timedelta(minutes=1),
     },
+    'check_7_days': {
+        'task': 'acc.tasks.notify_7_days',
+        'schedule': crontab(hour=9, minute=40, day_of_week=2),
+    },
 }
 
 
 CELERY_TIMEZONE = env('TIME_ZONE')
+CELERY_ACCEPT_CONTENT = ['pickle']
 
 GEOIP_PATH = './geolite/'
 
@@ -338,3 +344,12 @@ STRIPE_PK = env('STRIPE_PK')
 #     'error', r".*",
 #     RuntimeWarning, r".*"
 # )
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'simonasoloduha@gmail.com'
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
