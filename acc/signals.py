@@ -23,7 +23,7 @@ def new_user_notify(sender, **kwargs):
 
 
 @receiver(user_notify_7_days, dispatch_uid='notify_7_days')
-def new_user_notify(sender, **kwargs):
+def user_notify_7_days_not_class(sender, **kwargs):
     whom_to_notify = kwargs.get('whom', settings.SUPPORT_EMAIL)
 
     user = kwargs['user']
