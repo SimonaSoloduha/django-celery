@@ -5,7 +5,7 @@ from mixer.backend.django import mixer
 
 from elk.utils.testing import ClientTestCase, TestCase
 
-from .pipelines import SaveSocialProfile
+from acc.pipelines import SaveSocialProfile
 
 
 class TestSaveSocialProfile(SaveSocialProfile):

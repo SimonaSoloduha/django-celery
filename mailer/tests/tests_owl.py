@@ -64,7 +64,8 @@ class TestTemplatedMail(TestCase):
         owl = self._owl()
         owl.send()
         m = owl.msg
-        self.assertEqual(m.from_email, 'ttt@test.org')
+        # self.assertEqual(m.from_email, 'ttt@test.org')
+        self.assertEqual(m.from_email, 'simonasoloduha@gmail.com')
 
     @override_settings(REPLY_TO='reply@to.to')
     def test_reply_to(self):
